@@ -18,7 +18,11 @@
         .chain-badge { display: flex; align-items: center; gap: 8px; background: #fff; border: 2px solid #000; padding: 8px 16px; font-family: 'Courier Prime', monospace; font-weight: 700; }
         .connect-btn { background: #fff; color: #000; padding: 10px 24px; border: 2px solid #000; font-family: 'Courier Prime', monospace; font-weight: 700; cursor: pointer; transition: 0.2s; height: 100%; display: flex; align-items: center;}
         .connect-btn:hover { background: #000; color: #fff; }
-        .main-container { width: 100%; max-width: 600px; margin: 40px auto; padding: 20px; }
+        .main-container { width: 100%; max-width: 600px; margin: 40px auto; padding: 20px; position: relative; }
+		.header-logo {
+    height: 40px; /* Adjust size to fit your header */
+    width: auto;
+}
         .trade-box { background: #fff; border: 2px solid #000; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; height: 140px; position: relative; margin-bottom: 0; }
         .trade-header-small { display:flex; justify-content:space-between; font-family: 'Courier Prime', monospace; font-size: 14px; margin-bottom: 10px; color:#555; }
         .trade-content { display: flex; justify-content: space-between; align-items: center; height: 100%; }
@@ -47,11 +51,44 @@
         .token-list { overflow-y: auto; flex: 1; }
         .modal-token-row { display: flex; align-items: center; gap: 10px; padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; }
         .modal-token-row:hover { background: #000; color: #fff; }
+		/* Black & White Status Card */
+#statusCard {
+    display: none;
+    border: 2px solid #000;
+    background: #fff;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* Custom Notification Popup */
+.notif-box {
+    background: #fff;
+    border: 2px solid #000;
+    width: 350px;
+    padding: 20px;
+    box-shadow: 10px 10px 0px rgba(0,0,0,1); /* Brutalist shadow */
+    text-align: center;
+}
+
+.notif-title {
+    font-family: 'Merriweather', serif;
+    font-weight: 900;
+    font-size: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.notif-text {
+    font-family: 'Courier Prime', monospace;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
     </style>
 </head>
 <body>
     <div class="header-row">
         <div class="logo-container">
+		 <img src="https://coin-images.coingecko.com/coins/images/24109/large/fBomb_Brandmark_BlackBlue_%282%29.png?1751872081" class="header-logo" alt="fBOMB Logo">
             <span class="logo-text">fBOMB Bridge</span>
         </div>
         <div class="header-right">
@@ -92,7 +129,6 @@
             </div>
         </div>
 
-        <!-- Dest -->
         <div class="trade-box" style="border-top:none;">
             <div class="trade-header-small">
                 <span>To Network</span>
@@ -124,8 +160,22 @@
         </div>
 
         <button id="bridgeActionBtn" class="action-btn" onclick="executeBridge()" disabled>SELECT CHAINS</button>
-    </div>
 
+        <div id="statusCard">
+            <div style="font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; font-family: 'Merriweather'; border-bottom: 1px solid #000; padding-bottom: 5px;">
+                <span>BRIDGE STATUS</span>
+                <span id="lzStatusLabel" style="font-family: 'Courier Prime';">[WAITING]</span>
+            </div>
+            <div id="statusDetails" style="font-size: 12px; font-family: 'Courier Prime';">
+                Waiting for source confirmation...
+            </div>
+            <button id="retryBtn" class="action-btn" style="display:none; margin-top: 10px; font-size: 14px; padding: 10px;" onclick="triggerManualRetry()">
+                RETRY STUCK PAYLOAD
+            </button>
+        </div>
+    </div> 
+
+    
     <div id="tokenModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -136,6 +186,14 @@
                 <input type="text" class="search-input" placeholder="Search..." oninput="searchModal(this.value)">
             </div>
             <div id="modalList" class="token-list"></div>
+        </div>
+    </div>
+
+    <div id="notifModal" class="modal-overlay">
+        <div class="notif-box">
+            <div id="notifTitle" class="notif-title">NOTIFICATION</div>
+            <div id="notifText" class="notif-text">Message goes here.</div>
+            <button class="action-btn" style="margin-top:0;" onclick="closeNotif()">CLOSE</button>
         </div>
     </div>
 
@@ -155,9 +213,12 @@
         };
 
         const ERC20_ABI = ["function balanceOf(address) view returns (uint256)", "function approve(address, uint256) returns (bool)", "function allowance(address, address) view returns (uint256)"];
-        const LZ_ENDPOINT_ABI = ["function estimateFees(uint16, address, bytes, bool, bytes) view returns (uint256, uint256)"];
         const OFT_ABI = ["function traverseChains(uint16, uint256) payable"];
-
+const LZ_ENDPOINT_ABI = [
+    "function estimateFees(uint16, address, bytes, bool, bytes) view returns (uint256, uint256)",
+    "function retryPayload(uint16 _srcChainId, bytes _srcAddress, bytes _payload) external",
+    "function hasStoredPayload(uint16 _srcChainId, bytes _srcAddress) view returns (bool)"
+];
         let provider, signer, userAddress;
         let bridgeSrcChain = CHAINS.base;
         let bridgeDstChain = CHAINS.optimism;
@@ -168,7 +229,87 @@
             updateBridgeUI();
             document.getElementById('connectWallet').addEventListener('click', connectWallet);
         }
+let currentTxHash = null;
+let retryPayloadData = null; 
 
+async function monitorBridge(txHash) {
+    currentTxHash = txHash;
+    const statusCard = document.getElementById('statusCard');
+    const statusDetails = document.getElementById('statusDetails');
+    const statusLabel = document.getElementById('lzStatusLabel');
+    const retryBtn = document.getElementById('retryBtn');
+
+    statusCard.style.display = 'block';
+    retryBtn.style.display = 'none';
+    statusLabel.innerText = "IN FLIGHT";
+    statusCard.style.background = "#fff"; 
+
+    const interval = setInterval(async () => {
+        try {
+            const response = await fetch(`https://scan.layerzero-api.com/v1/messages/tx/${txHash}`);
+            const json = await response.json();
+
+            if (json.data && json.data.length > 0) {
+                const msg = json.data[0];
+                const statusText = (msg.status && msg.status.name) ? msg.status.name : msg.status;
+                
+                statusLabel.innerText = statusText.toUpperCase();
+
+                if (statusText === "DELIVERED") {
+                    statusLabel.innerText = "COMPLETED";
+                    statusDetails.innerText = "Success! Tokens arrived on " + bridgeDstChain.name;
+                    showNotif("BRIDGE SUCCESS", "Tokens have successfully arrived on " + bridgeDstChain.name);
+                    clearInterval(interval);
+                    fetchBalances();
+                } 
+                else if (statusText === "PAYLOAD_STORED" || statusText === "FAILED") {
+                    statusLabel.innerText = "STUCK";
+                    statusDetails.innerText = "Message stuck. Manual retry required.";
+                    retryPayloadData = msg.source.tx.payload; 
+                    retryBtn.style.display = 'block'; 
+                    showNotif("ATTENTION", "Your transaction is stuck. Use the RETRY button to release tokens.");
+                    clearInterval(interval);
+                }
+            }
+        } catch (e) {
+            console.log("Polling LZ...");
+        }
+    }, 15000);
+}
+
+async function triggerManualRetry() {
+    if (!retryPayloadData) return;
+    const btn = document.getElementById('retryBtn');
+    
+    try {
+        btn.disabled = true;
+        btn.innerText = "SWITCHING TO DESTINATION...";
+
+        await switchNetwork(bridgeDstChain.id);
+        
+        
+        const path = ethers.solidityPacked(
+            ["address", "address"], 
+            [bridgeSrcChain.fbomb, bridgeDstChain.fbomb]
+        );
+
+        const endpoint = new ethers.Contract(bridgeDstChain.endpoint, LZ_ENDPOINT_ABI, signer);
+        
+        btn.innerText = "SENDING RETRY...";
+        const tx = await endpoint.retryPayload(
+            bridgeSrcChain.lzId, 
+            path, 
+            retryPayloadData
+        );
+
+        await tx.wait();
+        alert("Retry successful! Tokens released.");
+        document.getElementById('statusCard').style.display = 'none';
+    } catch (e) {
+    showNotif("RETRY FAILED", e.message);
+    btn.disabled = false;
+}
+}
         async function connectWallet() {
             if (!window.ethereum) return alert("Install Wallet");
             try {
@@ -338,15 +479,18 @@
                 btn.innerText = "SENDING BRIDGE...";
                 const tx = await token.traverseChains(bridgeDstChain.lzId, amount, { value: bridgeFeeWei, gasLimit: 500000 });
                 btn.innerText = "WAITING...";
-                await tx.wait();
-                alert("Bridge sent!");
+                 await tx.wait();
+                
+                showNotif("TRANSACTION CONFIRMED", "Bridge transaction confirmed on source! Monitoring status..."); 
+                monitorBridge(tx.hash); 
                 btn.innerText = "SUCCESS";
                 fetchBalances();
             } catch(e) {
-                alert("Bridge Failed: " + (e.reason || e.message));
+                showNotif("BRIDGE ERROR", e.reason || e.message);
                 btn.disabled = false;
             }
         }
+
 
         function openModal(side) {
             activeModalSide = side; 
@@ -355,7 +499,15 @@
         }
 
         function closeModal() { document.getElementById('tokenModal').classList.remove('active'); }
+function showNotif(title, text) {
+    document.getElementById('notifTitle').innerText = title;
+    document.getElementById('notifText').innerText = text;
+    document.getElementById('notifModal').classList.add('active');
+}
 
+function closeNotif() {
+    document.getElementById('notifModal').classList.remove('active');
+}
        function renderList(list) {
             const cont = document.getElementById('modalList');
             cont.innerHTML = "";
