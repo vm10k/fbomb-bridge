@@ -253,7 +253,7 @@
         let activeModalSide = '';
         let currentTxHash = null;
         let retryPayloadData = null; 
-        let externalRecoveryData = null; // Used for Recovery Tab
+        let externalRecoveryData = null; 
 
         async function init() {
             updateBridgeUI();
@@ -373,25 +373,26 @@
 
                 if (json.data && json.data.length > 0) {
                     const msg = json.data[0];
+                    console.log("LayerZero API Data:", msg); 
+                    
                     const statusText = (msg.status && msg.status.name) ? msg.status.name : String(msg.status);
                     
-                    const srcLzId = msg.source.chainId;
-                    const dstLzId = msg.destination.chainId;
-                    
-                    const srcChain = Object.values(CHAINS).find(c => c.lzId === Number(srcLzId));
-                    const dstChain = Object.values(CHAINS).find(c => c.lzId === Number(dstLzId));
+const srcLzId = msg.pathway?.srcEid ?? msg.source?.chainId ?? msg.srcChainId;
+const dstLzId = msg.pathway?.dstEid ?? msg.destination?.chainId ?? msg.dstChainId;
 
-                    let srcAddress = msg.source?.app?.address || msg.source?.address;
-                    let dstAddress = msg.destination?.app?.address || msg.destination?.address;
+const srcChain = Object.values(CHAINS).find(c => c.lzId === Number(srcLzId) || c.id === Number(srcLzId));
+const dstChain = Object.values(CHAINS).find(c => c.lzId === Number(dstLzId) || c.id === Number(dstLzId));
 
-                    // Fallback to configured fBomb contracts if api lacks OApp addresses
+let srcAddress = msg.pathway?.sender?.address ?? msg.source?.app?.address ?? msg.source?.address;
+let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address ?? msg.destination?.address;
+
                     if (!srcAddress && srcChain) srcAddress = srcChain.fbomb;
                     if (!dstAddress && dstChain) dstAddress = dstChain.fbomb;
                     
-                    const payloadData = msg.source?.tx?.payload || msg.payload;
+                    const payloadData = msg.source?.tx?.payload || msg.payload || msg.sourcePayload;
 
-                    document.getElementById('recvSrc').innerText = srcChain ? srcChain.name : `LZ ID ${srcLzId}`;
-                    document.getElementById('recvDst').innerText = dstChain ? dstChain.name : `LZ ID ${dstLzId}`;
+                    document.getElementById('recvSrc').innerText = srcChain ? srcChain.name : `ID ${srcLzId}`;
+                    document.getElementById('recvDst').innerText = dstChain ? dstChain.name : `ID ${dstLzId}`;
                     statusLabel.innerText = statusText.toUpperCase();
                     
                     card.style.display = 'block';
