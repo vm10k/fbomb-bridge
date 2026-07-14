@@ -48,7 +48,7 @@
         .token-list { overflow-y: auto; flex: 1; }
         .modal-token-row { display: flex; align-items: center; gap: 10px; padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; }
         .modal-token-row:hover { background: #000; color: #fff; }
-		
+
         /* Black & White Status Card */
         #statusCard { display: none; border: 2px solid #000; background: #fff; padding: 15px; margin-top: 20px; }
 
@@ -92,7 +92,7 @@
             <div class="swap-title" style="font-family: 'Merriweather', serif; font-weight: 900; font-size: 24px; margin-bottom: 10px; text-align:center;">Change the network from your wallet</div>
             <div class="swap-title" style="font-family: 'Merriweather', serif; font-weight: 900; font-size: 16px; margin-bottom: 5px; text-align:center;">Bridge fee is 2%</div>
             <div class="swap-title" style="font-family: 'Merriweather', serif; font-weight: 900; font-size: 16px; margin-bottom: 20px; text-align:center; color: #d00;">Always Test with few tokens first.</div>
-            
+
             <div class="trade-box" style="border-bottom:none;">
                 <div class="trade-header-small">
                     <span>From Network</span>
@@ -164,12 +164,12 @@
                 </button>
             </div>
         </div>
-        
+
         <!-- RECOVERY VIEW -->
         <div id="recoveryView" style="display:none;">
             <div class="swap-title" style="font-family: 'Merriweather', serif; font-weight: 900; font-size: 24px; margin-bottom: 20px; text-align:center;">Recover Stuck Transaction</div>
             <div class="swap-title" style="font-family: 'Courier Prime', monospace; font-size: 14px; margin-bottom: 20px; text-align:center;">Enter the original transaction hash from the source chain to locate and retry a stalled payload.</div>
-            
+
             <div class="trade-box" style="height: auto; gap: 15px; border-bottom: 2px solid #000;">
                 <div style="font-family: 'Courier Prime', monospace; font-size: 14px; font-weight: bold;">LAYERZERO TX HASH</div>
                 <input type="text" id="recoveryTxInput" class="search-input" placeholder="0x..." style="width: 100%; border: 2px solid #000; font-size: 16px; padding: 12px;">
@@ -190,16 +190,16 @@
                     <span id="recvDst">---</span>
                 </div>
                 <div id="recvStatusMsg" style="font-family: 'Courier Prime', monospace; font-size: 11px; color: #555; text-align: center; margin-top: 10px; margin-bottom: 5px;"></div>
-                
+
                 <button id="execRecoveryBtn" class="action-btn" style="display:none; margin-top: 15px; font-size: 14px; padding: 12px; background:#000; color:#fff;" onclick="executeRecovery()">
                     EXECUTE RETRY
                 </button>
             </div>
         </div>
 
-    </div> 
+    </div>
 
-    
+
     <div id="tokenModal" class="modal-overlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -235,8 +235,8 @@
             sonic: { id: 146, lzId: 332, name: "Sonic", logo: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/sonic.svg", rpc: "https://rpc.soniclabs.com", fbomb: "0xedf8b632b537d5993adb5e2e15882cd791c284cb", endpoint: "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7" },
             bera: { id: 80094, lzId: 362, name: "Berachain", logo: "https://placehold.co/40x40/black/white?text=BE", rpc: "https://rpc.berachain.com", fbomb: "0xDf486980Df72446a5efF76263eFb2Fa9391Be136", endpoint: "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7" },
             hyperevm: { id: 999, lzId: 367, name: "HyperEVM", logo: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/hyperevm.svg", rpc: "https://rpc.hyperliquid.xyz/evm", fbomb: "0xe1fb1bc7a6d1b067defe7f9ce01ab4b5c931803f", endpoint: "0x2d61dcdd36f10b22176e0433b86f74567d529aaa" },
-            megaeth: { id: 4326, lzId: 367, name: "MegaETH", logo: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/megaeth.svg", rpc: "https://mainnet.megaeth.com/rpc", fbomb: "0x19d0480022eaf3e4E25472efEA9eeba372c9F35f", endpoint: "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7" },
-            robinhood: { id: 4663, lzId: 367, name: "Robinhood", logo: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/robinhood.svg", rpc: "https://rpc.mainnet.chain.robinhood.com", fbomb: "0x19d0480022eaf3e4E25472efEA9eeba372c9F35f", endpoint: "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7" },
+            megaeth: { id: 4326, lzId: 398, name: "MegaETH", logo: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/megaeth.svg", rpc: "https://mainnet.megaeth.com/rpc", fbomb: "0x19d0480022eaf3e4E25472efEA9eeba372c9F35f", endpoint: "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7" },
+            robinhood: { id: 4663, lzId: 416, name: "Robinhood", logo: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/robinhood.svg", rpc: "https://rpc.mainnet.chain.robinhood.com", fbomb: "0x19d0480022eaf3e4E25472efEA9eeba372c9F35f", endpoint: "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7" },
             fantom: { id: 250, lzId: 112, name: "Fantom", logo: "https://raw.githubusercontent.com/lifinance/types/main/src/assets/icons/chains/fantom.svg", rpc: "https://rpc.ftm.tools", fbomb: "0x74ccbe53F77b08632ce0CB91D3A545bF6B8E0979", endpoint: "0xb6319cC6c8c27A8F5dAF0dD3DF91EA35C4720dd7" }
         };
 
@@ -247,15 +247,15 @@
             "function retryPayload(uint16 _srcChainId, bytes _srcAddress, bytes _payload) external",
             "function hasStoredPayload(uint16 _srcChainId, bytes _srcAddress) view returns (bool)"
         ];
-        
+
         let provider, signer, userAddress;
         let bridgeSrcChain = CHAINS.base;
         let bridgeDstChain = CHAINS.optimism;
         let bridgeFeeWei = BigInt(0);
         let activeModalSide = '';
         let currentTxHash = null;
-        let retryPayloadData = null; 
-        let externalRecoveryData = null; 
+        let retryPayloadData = null;
+        let externalRecoveryData = null;
 
         async function init() {
             updateBridgeUI();
@@ -286,7 +286,7 @@
             statusCard.style.display = 'block';
             retryBtn.style.display = 'none';
             statusLabel.innerText = "IN FLIGHT";
-            statusCard.style.background = "#fff"; 
+            statusCard.style.background = "#fff";
 
             const interval = setInterval(async () => {
                 try {
@@ -296,7 +296,7 @@
                     if (json.data && json.data.length > 0) {
                         const msg = json.data[0];
                         const statusText = (msg.status && msg.status.name) ? msg.status.name : msg.status;
-                        
+
                         statusLabel.innerText = statusText.toUpperCase();
 
                         if (statusText === "DELIVERED") {
@@ -305,12 +305,12 @@
                             showNotif("BRIDGE SUCCESS", "Tokens have successfully arrived on " + bridgeDstChain.name);
                             clearInterval(interval);
                             fetchBalances();
-                        } 
+                        }
                         else if (statusText === "PAYLOAD_STORED" || statusText === "FAILED") {
                             statusLabel.innerText = "STUCK";
                             statusDetails.innerText = "Message stuck. Manual retry required.";
-                            retryPayloadData = msg.source.tx.payload || msg.payload; 
-                            retryBtn.style.display = 'block'; 
+                            retryPayloadData = msg.source.tx.payload || msg.payload;
+                            retryBtn.style.display = 'block';
                             showNotif("ATTENTION", "Your transaction is stuck. Use the RETRY button to release tokens.");
                             clearInterval(interval);
                         }
@@ -324,24 +324,24 @@
         async function triggerManualRetry() {
             if (!retryPayloadData) return;
             const btn = document.getElementById('retryBtn');
-            
+
             try {
                 btn.disabled = true;
                 btn.innerText = "SWITCHING TO DESTINATION...";
 
                 await switchNetwork(bridgeDstChain.id);
-                
+
                 const path = ethers.solidityPacked(
-                    ["address", "address"], 
+                    ["address", "address"],
                     [bridgeSrcChain.fbomb, bridgeDstChain.fbomb]
                 );
 
                 const endpoint = new ethers.Contract(bridgeDstChain.endpoint, LZ_ENDPOINT_ABI, signer);
-                
+
                 btn.innerText = "SENDING RETRY...";
                 const tx = await endpoint.retryPayload(
-                    bridgeSrcChain.lzId, 
-                    path, 
+                    bridgeSrcChain.lzId,
+                    path,
                     retryPayloadData
                 );
 
@@ -358,13 +358,13 @@
         async function fetchRecoveryTx() {
             const hash = document.getElementById('recoveryTxInput').value.trim();
             if(!hash) return;
-            
+
             const btn = document.getElementById('fetchTxBtn');
             const card = document.getElementById('recoveryCard');
             const statusLabel = document.getElementById('recvStatus');
             const statusMsg = document.getElementById('recvStatusMsg');
             const execBtn = document.getElementById('execRecoveryBtn');
-            
+
             btn.innerText = "FETCHING DATA...";
             card.style.display = 'none';
             execBtn.style.display = 'none';
@@ -375,10 +375,10 @@
 
                 if (json.data && json.data.length > 0) {
                     const msg = json.data[0];
-                    console.log("LayerZero API Data:", msg); 
-                    
+                    console.log("LayerZero API Data:", msg);
+
                     const statusText = (msg.status && msg.status.name) ? msg.status.name : String(msg.status);
-                    
+
 const srcLzId = msg.pathway?.srcEid ?? msg.source?.chainId ?? msg.srcChainId;
 const dstLzId = msg.pathway?.dstEid ?? msg.destination?.chainId ?? msg.dstChainId;
 
@@ -390,19 +390,19 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
 
                     if (!srcAddress && srcChain) srcAddress = srcChain.fbomb;
                     if (!dstAddress && dstChain) dstAddress = dstChain.fbomb;
-                    
+
                     const payloadData = msg.source?.tx?.payload || msg.payload || msg.sourcePayload;
 
                     document.getElementById('recvSrc').innerText = srcChain ? srcChain.name : `ID ${srcLzId}`;
                     document.getElementById('recvDst').innerText = dstChain ? dstChain.name : `ID ${dstLzId}`;
                     statusLabel.innerText = statusText.toUpperCase();
-                    
+
                     card.style.display = 'block';
 
                     if (statusText === "PAYLOAD_STORED" || statusText === "FAILED") {
                         statusLabel.style.color = "#d00";
                         statusMsg.innerText = "Transaction stalled on destination. Click Execute Retry to finish bridge process.";
-                        
+
                         externalRecoveryData = { dstChain, srcLzId, srcAddress, dstAddress, payloadData };
                         execBtn.style.display = 'block';
                     } else if (statusText === "DELIVERED") {
@@ -419,16 +419,16 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 console.error("Fetch Error:", e);
                 alert("Failed to fetch transaction data from LayerZero API.");
             }
-            
+
             btn.innerText = "FETCH STATUS";
         }
 
         async function executeRecovery() {
             if (!userAddress) return alert("Connect Wallet First!");
             if (!externalRecoveryData) return;
-            
+
             const { dstChain, srcLzId, srcAddress, dstAddress, payloadData } = externalRecoveryData;
-            
+
             if (!dstChain) return alert("Destination chain is not supported in this UI.");
             if (!srcAddress || !dstAddress) return alert("Unable to parse Application addresses required for path.");
 
@@ -438,24 +438,24 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 btn.innerText = "SWITCHING NETWORK...";
 
                 await switchNetwork(dstChain.id);
-                
+
                 const path = ethers.solidityPacked(
-                    ["address", "address"], 
+                    ["address", "address"],
                     [srcAddress, dstAddress]
                 );
 
                 const endpoint = new ethers.Contract(dstChain.endpoint, LZ_ENDPOINT_ABI, signer);
-                
+
                 btn.innerText = "SENDING RETRY...";
                 const tx = await endpoint.retryPayload(
-                    srcLzId, 
-                    path, 
+                    srcLzId,
+                    path,
                     payloadData
                 );
 
                 btn.innerText = "WAITING FOR CONFIRMATION...";
                 await tx.wait();
-                
+
                 showNotif("SUCCESS", "Transaction Retry sent and confirmed. Funds released!");
                 document.getElementById('recvStatus').innerText = "DELIVERED (RETRIED)";
                 document.getElementById('recvStatus').style.color = "#00aa00";
@@ -480,7 +480,7 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 userAddress = accounts[0];
                 signer = await provider.getSigner();
                 document.getElementById('connectWallet').innerText = userAddress.substring(0,6) + '...';
-                
+
                 const net = await provider.getNetwork();
                 handleChainChanged(Number(net.chainId));
                 window.ethereum.on('chainChanged', (chainId) => handleChainChanged(Number(chainId)));
@@ -504,9 +504,9 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 document.getElementById('currentChainName').innerText = c.name;
                 document.getElementById('currentChainIcon').src = c.logo;
                 document.getElementById('currentChainIcon').style.display = 'block';
-                if(bridgeSrcChain.id !== chainId) { 
-                    bridgeSrcChain = c; 
-                    updateBridgeUI(); 
+                if(bridgeSrcChain.id !== chainId) {
+                    bridgeSrcChain = c;
+                    updateBridgeUI();
                 }
             } else {
                 document.getElementById('currentChainName').innerText = "Wrong Net";
@@ -516,19 +516,19 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
        async function switchNetwork(chainId) {
             const hexChainId = "0x" + chainId.toString(16);
             try {
-                await window.ethereum.request({ 
-                    method: 'wallet_switchEthereumChain', 
-                    params: [{ chainId: hexChainId }] 
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: hexChainId }]
                 });
-                
+
                 provider = new ethers.BrowserProvider(window.ethereum);
                 signer = await provider.getSigner();
-                
-            } catch (error) { 
+
+            } catch (error) {
                 if (error.code === 4902) {
                     const chainKey = Object.keys(CHAINS).find(k => CHAINS[k].id === chainId);
                     const chainData = CHAINS[chainKey];
-                    
+
                     if (chainData) {
                         try {
                             await window.ethereum.request({
@@ -539,12 +539,12 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                                     rpcUrls: [chainData.rpc],
                                     nativeCurrency: {
                                         name: "Native Token",
-                                        symbol: "ETH", 
+                                        symbol: "ETH",
                                         decimals: 18
                                     }
                                 }]
                             });
-                            
+
                             provider = new ethers.BrowserProvider(window.ethereum);
                             signer = await provider.getSigner();
                         } catch (addError) {
@@ -552,18 +552,18 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                         }
                     }
                 } else {
-                    console.error("Failed to switch network:", error); 
+                    console.error("Failed to switch network:", error);
                 }
             }
         }
 
         async function fetchBalances() {
             if (!userAddress || !bridgeSrcChain) return;
-            
+
             try {
                 let currentProvider = provider;
                 const net = await provider.getNetwork();
-                
+
                 if (Number(net.chainId) !== bridgeSrcChain.id) {
                     currentProvider = new ethers.JsonRpcProvider(bridgeSrcChain.rpc);
                 }
@@ -571,7 +571,7 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 const contract = new ethers.Contract(bridgeSrcChain.fbomb, ERC20_ABI, currentProvider);
                 const bal = await contract.balanceOf(userAddress);
                 const formattedBal = parseFloat(ethers.formatUnits(bal, 18)).toFixed(4);
-                
+
                 document.getElementById('bridgeSrcBalance').innerText = "Bal: " + formattedBal;
             } catch (e) {
                 console.error("Balance fetch error:", e);
@@ -585,14 +585,14 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
             document.getElementById('dstChainName').innerText = bridgeDstChain.name;
             document.getElementById('lzRouteDisplay').innerText = `ID ${bridgeSrcChain.lzId} -> ID ${bridgeDstChain.lzId}`;
             estimateBridgeFees();
-            fetchBalances(); 
+            fetchBalances();
         }
 
         async function estimateBridgeFees() {
             const amtStr = document.getElementById('bridgeAmt').value;
             const btn = document.getElementById('bridgeActionBtn');
             const feeDisp = document.getElementById('bridgeFeeDisplay');
-            
+
             if(!amtStr || parseFloat(amtStr) <= 0 || !userAddress) return;
 
             const v2Endpoints = ["0xb6319cc6c8c27a8f5daf0dd3df91ea35c4720dd7", "0x66a71dcef29a0bf96339d53295906b9a9a9a9a9a", "0xb6319cc6c8c27a8f5daf074b728ed948a873a56", "0x042b8289c97896529ec2fe49ba1a8b9c956a86cc"];
@@ -607,7 +607,7 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 const fees = await endpoint.estimateFees(bridgeDstChain.lzId, bridgeSrcChain.fbomb, payload, false, adapterParams);
                 bridgeFeeWei = (fees[0] * 150n) / 100n;
                 feeDisp.innerText = parseFloat(ethers.formatEther(bridgeFeeWei)).toFixed(5) + " Native";
-                document.getElementById('bridgeReceiveAmt').value = amtStr; 
+                document.getElementById('bridgeReceiveAmt').value = amtStr;
                 btn.innerText = "BRIDGE ASSETS";
                 btn.disabled = false;
             } catch(e) {
@@ -640,9 +640,9 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 const tx = await token.traverseChains(bridgeDstChain.lzId, amount, { value: bridgeFeeWei, gasLimit: 500000 });
                 btn.innerText = "WAITING...";
                  await tx.wait();
-                
-                showNotif("TRANSACTION CONFIRMED", "Bridge transaction confirmed on source! Monitoring status..."); 
-                monitorBridge(tx.hash); 
+
+                showNotif("TRANSACTION CONFIRMED", "Bridge transaction confirmed on source! Monitoring status...");
+                monitorBridge(tx.hash);
                 btn.innerText = "SUCCESS";
                 fetchBalances();
             } catch(e) {
@@ -652,13 +652,13 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
         }
 
         function openModal(side) {
-            activeModalSide = side; 
+            activeModalSide = side;
             document.getElementById('tokenModal').classList.add('active');
             renderList(Object.values(CHAINS));
         }
 
         function closeModal() { document.getElementById('tokenModal').classList.remove('active'); }
-        
+
         function showNotif(title, text) {
             document.getElementById('notifTitle').innerText = title;
             document.getElementById('notifText').innerText = text;
@@ -668,7 +668,7 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
         function closeNotif() {
             document.getElementById('notifModal').classList.remove('active');
         }
-        
+
         function renderList(list) {
             const cont = document.getElementById('modalList');
             cont.innerHTML = "";
