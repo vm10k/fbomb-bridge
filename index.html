@@ -609,10 +609,10 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 btn.innerText = "BRIDGE ASSETS";
                 btn.disabled = false;
            } catch(e) {
-                console.error("DEBUG ERROR DETAILS:", e);
+                console.error("ACTUAL ON-CHAIN REVERT ERROR:", e);
 
-                let errMsg = e.reason || e.message || "Unknown error occurred";
-                if (errMsg.length > 60) errMsg = errMsg.substring(0, 60) + "..."; 
+                let errMsg = e.reason || e.message || "Unknown Error";
+                if (errMsg.length > 80) errMsg = errMsg.substring(0, 80) + "..."; 
                 
                 feeDisp.innerText = "Revert Reason: " + errMsg;
                 btn.innerText = "BRIDGE UNAVAILABLE";
