@@ -594,9 +594,9 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
 
             if(!amtStr || parseFloat(amtStr) <= 0 || !userAddress) return;
 
-            const v2Endpoints = ["0xb6319cc6c8c27a8f5daf0dd3df91ea35c4720dd7", "0x66a71dcef29a0bf96339d53295906b9a9a9a9a9a", "0xb6319cc6c8c27a8f5daf074b728ed948a873a56", "0x042b8289c97896529ec2fe49ba1a8b9c956a86cc"];
-            const isV2 = v2Endpoints.includes(bridgeSrcChain.endpoint.toLowerCase());
-            let adapterParams = isV2 ? ethers.solidityPacked(["uint16", "uint256"], [1, 200000]) : "0x";
+          // We always generate standard Version 1 adapter parameters with gas limit 
+            // to prevent the LayerZero oracle/relayer from reverting the estimation call.
+            let adapterParams = ethers.solidityPacked(["uint16", "uint256"], [1, 250000]);
 
             try {
                 btn.innerText = "CALCULATING FEE...";
