@@ -608,11 +608,17 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
                 document.getElementById('bridgeReceiveAmt').value = amtStr;
                 btn.innerText = "BRIDGE ASSETS";
                 btn.disabled = false;
-            } catch(e) {
-                feeDisp.innerText = "Route Not Supported";
+           } catch(e) {
+                console.error("DEBUG ERROR DETAILS:", e);
+
+                let errMsg = e.reason || e.message || "Unknown error occurred";
+                if (errMsg.length > 60) errMsg = errMsg.substring(0, 60) + "..."; 
+                
+                feeDisp.innerText = "Revert Reason: " + errMsg;
                 btn.innerText = "BRIDGE UNAVAILABLE";
                 btn.disabled = true;
             }
+			
         }
 
         async function executeBridge() {
