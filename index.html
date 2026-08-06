@@ -594,8 +594,7 @@ let dstAddress = msg.pathway?.receiver?.address ?? msg.destination?.app?.address
 
             if(!amtStr || parseFloat(amtStr) <= 0 || !userAddress) return;
 
-          // We always generate standard Version 1 adapter parameters with gas limit 
-            // to prevent the LayerZero oracle/relayer from reverting the estimation call.
+         
             let adapterParams = ethers.solidityPacked(["uint16", "uint256"], [1, 250000]);
 
             try {
